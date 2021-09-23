@@ -1,0 +1,50 @@
+{% block school_notes %}
+
+<div id="expiredL">
+  <h5>Skolenotater</h5>
+  <form method="POST" class="col s12">
+    <div class="row">
+      <div class="input-field col s12">
+        <textarea
+          name="school_note"
+          id="school_note"
+          class="materialize-textarea"
+        ></textarea>
+        <label for="school_note">Skriv notat</label>
+        <input
+          type="hidden"
+          id="school_org"
+          name="school_org"
+          value="{{orgNr}}"
+        />
+        <div align="left">
+          <button
+            class="btn waves-effect waves-light"
+            type="submit"
+            name="action"
+          >
+            Post
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  {% if skole_notater is not none %} {% for item in skole_notater %}
+  <div class="card-panel">
+    <p>{{item.data}}</p>
+    <p>{{item.username}} - {{item.date}}</p>
+    <button
+      type="button"
+      class="btn right btn-delete"
+      onClick="deleteSchoolNote('{{ item.id }}', '{{schoolName}}', '{{orgNr}}', '{{kommune}}')"
+    >
+      <i class="material-icons icon-black">delete</i>
+    </button>
+  </div>
+  {% endfor %} {% else %}
+  <p>Legg til notater for skolen.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

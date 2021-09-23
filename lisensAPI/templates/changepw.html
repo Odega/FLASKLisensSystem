@@ -1,0 +1,35 @@
+{% extends "base.html" %}{% block title %} Endre passord {% endblock %} {% block
+login %}
+
+<div class="container">
+  <h1>Bytt passord</h1>
+  <br />
+  <form action="" method="post">
+    <input
+      type="password"
+      placeholder="Gammelt passord"
+      name="oldpw"
+      value="{{
+          request.form.oldpw }}"
+    />
+    <input
+      type="password"
+      placeholder="Nytt passord"
+      name="newpassword1"
+      value="{{
+          request.form.newpassword1 }}"
+    />
+    <input
+      type="password"
+      placeholder="Gjenta passord"
+      name="newpassword2"
+      value="{{
+            request.form.newpassword2 }}"
+    />
+    <input class="btn btn-default" type="submit" value="Endre passord" />
+  </form>
+  {% if error %}
+  <p class="error"><strong>Error:</strong> {{ error }} {% endif %}</p>
+</div>
+
+{% endblock %}

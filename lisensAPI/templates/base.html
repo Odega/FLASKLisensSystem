@@ -1,0 +1,1067 @@
+<html>
+  <head>
+    <title>{% block title %} Hjem {% endblock %}</title>
+
+    <meta charset="UTF-8" />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+    <link rel="shortcut icon" href="#" />
+    <link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ url_for('static', filename='style.css') }}"
+  />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Table test-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"
+    />
+    <script
+    type="text/javascript"
+    src="{{ url_for('static', filename='index.js')}}"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.production.min.js"></script>
+    <!-- Table test-->
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"
+    ></script>
+  </head>
+  
+  <body>
+    <div class="row side-full-height">
+      <nav>
+        <div class="nav-wrapper blue">
+          <a href="/dashboard" class="brand-logo left">
+            Lisenser - Min Kunnskap</a
+          >
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            {% if user.is_authenticated %}
+            <li><a href="/notes">Dine notater</a></li>
+            <li><a href="/expired">Utgåtte lisenser</a></li>
+            <li><a href="/coursemanager">Læremidler</a></li>
+            <li><a href="/schoolmanager">Skoler</a></li>
+            <li><a class='dropdown-trigger' href='#' data-target='dropdown1'><i class="material-icons">account_circle</i></a></li>
+            <ul id='dropdown1' class='dropdown-content'>
+              <li><a href="/usermanager">Brukere</a></li>
+              <li class="divider" tabindex="-1"></li>
+              <li><a href="/changepw">Bytt passord</a></li>
+              <li><a href="/logout">Logg ut</a></li></li>
+            </ul>
+            {% else %}
+            <li><a href="/login">Logg inn</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div id="snackbar" class="alert-{{category}}">{{message}}</div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <div class="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div id="loaded">
+        {% block dashboard %} {% endblock %} {% block school %} {% endblock %}
+        {% block kommune %} {% endblock %} {% block expired %} {% endblock %}
+        {% block notes %} {% endblock %} {% block coursemanager %} {% endblock %} {% block usermanager %} {% endblock %}
+        {% block schoolmanager %} {% endblock %}
+        {% block forgotpassword %} {% endblock %}
+      </div>
+      {% block login %} {% endblock %}
+    </div>
+ 
+    <script>
+      function load() {
+        $(".loader").css("display", "none");
+        $("#loaded").css("display", "block");
+      }
+      window.onload = load;
+      $(document).ready(function () {
+        setTimeout(function () {
+          $("#snackbar").fadeOut("slow");
+        }, 2000); // <-- time in milliseconds
+      });
+      // Table test
+      $(document).ready(function () {
+        $("#table_id").DataTable();
+        $('.dropdown-trigger').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      hover: false, // Activate on hover
+      coverTrigger: false, // Displays dropdown below the button
+      alignment: 'right' // Displays dropdown with edge aligned to the left of button
+    });
+      });
+      // Table test end
+      ///////////////////////////////////////////////
+      var datajson = {
+        Agder: null,
+        Alstahaug: null,
+        Alta: null,
+        Alvdal: null,
+        Alver: null,
+        Andøy: null,
+        Aremark: null,
+        Arendal: null,
+        Asker: null,
+        Askvoll: null,
+        Askøy: null,
+        Aukra: null,
+        Aure: null,
+        Aurland: null,
+        "Aurskog-Høland": null,
+        Austevoll: null,
+        Austrheim: null,
+        Averøy: null,
+        Balsfjord: null,
+        Bamble: null,
+        Bardu: null,
+        Beiarn: null,
+        Bergen: null,
+        Berlevåg: null,
+        Bindal: null,
+        Birkenes: null,
+        Bjerkreim: null,
+        Bjørnafjorden: null,
+        Bodø: null,
+        Bokn: null,
+        Bremanger: null,
+        Brønnøy: null,
+        Bygland: null,
+        Bykle: null,
+        Bærum: null,
+        Bø: null,
+        Bømlo: null,
+        Båtsfjord: null,
+        Dovre: null,
+        Drammen: null,
+        Drangedal: null,
+        Dyrøy: null,
+        Dønna: null,
+        Eidfjord: null,
+        Eidskog: null,
+        Eidsvoll: null,
+        Eigersund: null,
+        Elverum: null,
+        Enebakk: null,
+        Engerdal: null,
+        Etne: null,
+        Etnedal: null,
+        Evenes: null,
+        "Evje og Hornnes": null,
+        Farsund: null,
+        "Fauske - Fuosko": null,
+        Fedje: null,
+        Fitjar: null,
+        Fjaler: null,
+        Fjord: null,
+        Flakstad: null,
+        Flatanger: null,
+        Flekkefjord: null,
+        Flesberg: null,
+        Flå: null,
+        Folldal: null,
+        Fredrikstad: null,
+        Frogn: null,
+        Froland: null,
+        Frosta: null,
+        Frøya: null,
+        Fyresdal: null,
+        Færder: null,
+        Gamvik: null,
+        Gausdal: null,
+        Gildeskål: null,
+        Giske: null,
+        Gjemnes: null,
+        Gjerdrum: null,
+        Gjerstad: null,
+        Gjesdal: null,
+        Gjøvik: null,
+        Gloppen: null,
+        Gol: null,
+        Gran: null,
+        Grane: null,
+        Gratangen: null,
+        Grimstad: null,
+        Grong: null,
+        Grue: null,
+        Gulen: null,
+        Hadsel: null,
+        Halden: null,
+        Hamar: null,
+        Hamarøy: null,
+        Hammerfest: null,
+        Hareid: null,
+        Harstad: null,
+        Hasvik: null,
+        Hattfjelldal: null,
+        Haugesund: null,
+        Heim: null,
+        Hemnes: null,
+        Hemsedal: null,
+        Herøy: null,
+        Hitra: null,
+        Hjartdal: null,
+        Hjelmeland: null,
+        Hol: null,
+        Hole: null,
+        Holmestrand: null,
+        Holtålen: null,
+        Horten: null,
+        Hurdal: null,
+        Hustadvika: null,
+        Hvaler: null,
+        Hyllestad: null,
+        Hægebostad: null,
+        Høyanger: null,
+        Høylandet: null,
+        Hå: null,
+        Ibestad: null,
+        Inderøy: null,
+        "Indre Fosen": null,
+        "Indre Østfold": null,
+        Innlandet: null,
+        Iveland: null,
+        Jevnaker: null,
+        Karasjok: null,
+        Karlsøy: null,
+        Karmøy: null,
+        Kautokeino: null,
+        Kinn: null,
+        Klepp: null,
+        Kongsberg: null,
+        Kongsvinger: null,
+        Kragerø: null,
+        Kristiansand: null,
+        Kristiansund: null,
+        Krødsherad: null,
+        Kvam: null,
+        Kvinesdal: null,
+        Kvinnherad: null,
+        Kviteseid: null,
+        Kvitsøy: null,
+        Kvæfjord: null,
+        Kvænangen: null,
+        Kåfjord: null,
+        Larvik: null,
+        Lavangen: null,
+        Lebesby: null,
+        Leirfjord: null,
+        Leka: null,
+        Lesja: null,
+        Levanger: null,
+        Lier: null,
+        Lierne: null,
+        Lillehammer: null,
+        Lillesand: null,
+        Lillestrøm: null,
+        Lindesnes: null,
+        Lom: null,
+        Loppa: null,
+        Lund: null,
+        Lunner: null,
+        Lurøy: null,
+        Luster: null,
+        Lyngdal: null,
+        Lyngen: null,
+        Lærdal: null,
+        Lødingen: null,
+        Lørenskog: null,
+        Løten: null,
+        Malvik: null,
+        Marker: null,
+        Masfjorden: null,
+        Melhus: null,
+        Meløy: null,
+        Meråker: null,
+        "Midtre Gauldal": null,
+        "Midt-Telemark": null,
+        Modalen: null,
+        Modum: null,
+        Molde: null,
+        Moskenes: null,
+        Moss: null,
+        "Møre og Romsdal": null,
+        Målselv: null,
+        Måsøy: null,
+        Namsos: null,
+        Namsskogan: null,
+        Nannestad: null,
+        Narvik: null,
+        Nes: null,
+        Nesbyen: null,
+        Nesna: null,
+        Nesodden: null,
+        Nesseby: null,
+        Nissedal: null,
+        Nittedal: null,
+        Nome: null,
+        "Nord-Aurdal": null,
+        "Nord-Fron": null,
+        Nordkapp: null,
+        Nordland: null,
+        "Nord-Odal": null,
+        "Nordre Follo": null,
+        "Nordre Land": null,
+        Nordreisa: null,
+        "Nore og Uvdal": null,
+        Notodden: null,
+        Nærøysund: null,
+        Oppdal: null,
+        Orkland: null,
+        Os: null,
+        Osen: null,
+        Oslo: null,
+        Osterøy: null,
+        Overhalla: null,
+        Porsanger: null,
+        Porsgrunn: null,
+        "Raarvihke - Røyrvik": null,
+        Rakkestad: null,
+        Rana: null,
+        Randaberg: null,
+        Rauma: null,
+        Rendalen: null,
+        Rennebu: null,
+        Rindal: null,
+        Ringebu: null,
+        Ringerike: null,
+        Ringsaker: null,
+        Risør: null,
+        Rogaland: null,
+        Rollag: null,
+        Rælingen: null,
+        Rødøy: null,
+        Røros: null,
+        Røst: null,
+        Råde: null,
+        Salangen: null,
+        Saltdal: null,
+        Samnanger: null,
+        Sande: null,
+        Sandefjord: null,
+        Sandnes: null,
+        Sarpsborg: null,
+        Sauda: null,
+        Sel: null,
+        Selbu: null,
+        Seljord: null,
+        Senja: null,
+        Sigdal: null,
+        Siljan: null,
+        Sirdal: null,
+        Skaun: null,
+        Skien: null,
+        Skiptvet: null,
+        Skjervøy: null,
+        Skjåk: null,
+        Smøla: null,
+        "Snåase - Snåsa": null,
+        Sogndal: null,
+        Sokndal: null,
+        Sola: null,
+        Solund: null,
+        "Sortland - Suortá": null,
+        Stad: null,
+        Stange: null,
+        Stavanger: null,
+        Steigen: null,
+        Steinkjer: null,
+        Stjørdal: null,
+        Stord: null,
+        "Stor-Elvdal": null,
+        Storfjord: null,
+        Strand: null,
+        Stranda: null,
+        Stryn: null,
+        Sula: null,
+        Suldal: null,
+        Sunndal: null,
+        Sunnfjord: null,
+        Surnadal: null,
+        Svalbard: null,
+        Sveio: null,
+        Sykkylven: null,
+        Sømna: null,
+        "Søndre Land": null,
+        "Sør-Aurdal": null,
+        Sørfold: null,
+        "Sør-Fron": null,
+        "Sør-Odal": null,
+        Sørreisa: null,
+        "Sør-Varanger": null,
+        Tana: null,
+        Time: null,
+        Tingvoll: null,
+        Tinn: null,
+        Tjeldsund: null,
+        Tokke: null,
+        Tolga: null,
+        "Troms og Finnmark": null,
+        Tromsø: null,
+        Trondheim: null,
+        Trysil: null,
+        Træna: null,
+        Trøndelag: null,
+        Tvedestrand: null,
+        Tydal: null,
+        Tynset: null,
+        Tysnes: null,
+        Tysvær: null,
+        Tønsberg: null,
+        Ullensaker: null,
+        Ullensvang: null,
+        Ulstein: null,
+        Ulvik: null,
+        "Utlandet, uspesifisert": null,
+        Utsira: null,
+        Vadsø: null,
+        Vaksdal: null,
+        Valle: null,
+        Vang: null,
+        Vanylven: null,
+        Vardø: null,
+        Vefsn: null,
+        Vega: null,
+        Vegårshei: null,
+        Vennesla: null,
+        Verdal: null,
+        Vestby: null,
+        "Vestfold og Telemark": null,
+        Vestland: null,
+        Vestnes: null,
+        "Vestre Slidre": null,
+        "Vestre Toten": null,
+        Vestvågøy: null,
+        Vevelstad: null,
+        Vik: null,
+        Viken: null,
+        Vindafjord: null,
+        Vinje: null,
+        Volda: null,
+        Voss: null,
+        Værøy: null,
+        Vågan: null,
+        Vågå: null,
+        Våler: null,
+        Øksnes: null,
+        Ørland: null,
+        Ørsta: null,
+        "Østre Toten": null,
+        "Øvre Eiker": null,
+        Øyer: null,
+        Øygarden: null,
+        "Øystre Slidre": null,
+        Åfjord: null,
+        Ål: null,
+        Ålesund: null,
+        Åmli: null,
+        Åmot: null,
+        Årdal: null,
+        Ås: null,
+        Åseral: null,
+        Åsnes: null,
+      };
+      $("input.autocomplete").autocomplete({
+        data: datajson,
+      });
+      $("input.autocomplete").on(
+        "autocompletechange keyup change",
+        function (event, ui) {
+          //console.log(event.target.value);
+          if (Object.keys(datajson).includes(event.target.value)) {
+            hentSkoler(event.target.value);
+          }
+        }
+      );
+      $("input.autocomplete2").on(
+        "autocompletechange change",
+        function (event, ui) {
+          console.log("Videre til hentOrg()");
+          var kom = $("#kommune").val();
+          hentOrg(event.target.value, kom);
+        }
+      );
+      function hentSkoler(kommune1) {
+        console.log("hentSkoler()" + kommune1);
+        dataSend = { kommune: kommune1 };
+        $.ajax({
+          url: "/background_process",
+          data: JSON.stringify(dataSend),
+          type: "POST",
+          dataType: "JSON",
+          contentType: "application/json;charset=UTF-8",
+          success: function (response) {
+            console.log(response);
+            console.log("SUCCESS! .. Returnerer fra hentSkoler()");
+            $("input.autocomplete2").autocomplete({
+              data: response,
+            });
+          },
+          error: function (error) {
+            console.log(error);
+            console.log("ERROR! apparently not ';..;'");
+          },
+        });
+        return;
+      }
+      function hentOrg(skole1, kom1) {
+        console.log("hentOrg()" + skole1);
+        dataSend = { skoleNavn: skole1, komNavn: kom1};
+        $.ajax({
+          url: "/background_process2",
+          data: JSON.stringify(dataSend),
+          type: "POST",
+          dataType: "JSON",
+          contentType: "application/json;charset=UTF-8",
+          success: function (response) {
+            console.log(response);
+            $("#orgSkole").val(response.toString());
+            $("#orgLabel").addClass("active");
+            console.log("SUCCESS! .. Returnerer fra hentOrg()");
+          },
+          error: function (error) {
+            console.log(error);
+            console.log("ERROR! apparently not ';..;'");
+          },
+        });
+      }
+
+      ///////////////////////////////////////////////
+
+      $('.chips').chips();
+     $('.chips-placeholder').chips({
+        placeholder: 'Skolenavn',
+        secondaryPlaceholder: '+Skolenavn',
+      });
+      
+      //var chipsSkoler = {}
+      $("input.autocomplete5").autocomplete({
+        data: datajson,
+      });
+      $("input.autocomplete5").on(
+        "autocompletechange keyup change",
+        function (event, ui) {
+          //console.log(event.target.value);
+          if (Object.keys(datajson).includes(event.target.value)) {
+            hentSkoler2(event.target.value);
+          }
+        }
+      );
+      
+      function hentSkoler2(kommune1) {
+        console.log("hentSkoler2()" + kommune1);
+        dataSend = { kommune: kommune1 };
+        $.ajax({
+          url: "/background_process",
+          data: JSON.stringify(dataSend),
+          type: "POST",
+          dataType: "JSON",
+          contentType: "application/json;charset=UTF-8",
+          success: function (response) {
+            console.log("Hentskoler2 ok")
+            console.log(response)
+            var chipsSkoler = response;
+            $('.chips-autocomplete').chips({
+              autocompleteOptions: {
+              data: chipsSkoler,
+              limit: Infinity,
+              minLength: 1
+        }
+      });
+          },
+          error: function (error) {
+            console.log(error);
+            console.log("ERROR! apparently not ';..;'");
+          },
+        });
+        return;
+      }
+      /////////////////////////////////////////////
+
+      $(document).ready(function () {
+        $(".tabs").tabs();
+        $("select").formSelect();
+        var nowDate = formatDate();
+        var oneYearDate = formatDate2();
+        //console.log(nowDate);
+        //console.log(oneYearDate);
+
+        $(".datepicker1")
+          .datepicker({
+            autoClose: true,
+            format: "yyyy-mm-dd",
+          })
+          .datepicker("setDate", new Date(nowDate));
+        $(".datepicker2")
+          .datepicker({
+            autoClose: true,
+            format: "yyyy-mm-dd",
+          })
+          .datepicker("setDate", new Date(oneYearDate));
+        $("label[for='genDate']").addClass("active");
+        $("label[for='valDate']").addClass("active");
+        $("label[for='genDate2']").addClass("active");
+        $("label[for='valDate2']").addClass("active");
+        $("label[for='genDate5']").addClass("active");
+        $("label[for='valDate5']").addClass("active");
+        $(".datepicker1").val(nowDate);
+        $(".datepicker2").val(oneYearDate);
+        function formatDate() {
+          var d = new Date(),
+            month = "" + (d.getMonth() + 1),
+            day = "" + d.getDate(),
+            year = d.getFullYear();
+
+          if (month.length < 2) month = "0" + month;
+          if (day.length < 2) day = "0" + day;
+
+          return [year, month, day].join("-");
+        }
+        function formatDate2() {
+          var d = new Date(),
+            month = "" + (d.getMonth() + 1),
+            day = "" + d.getDate(),
+            year = d.getFullYear() + 1;
+
+          if (month.length < 2) month = "0" + month;
+          if (day.length < 2) day = "0" + day;
+
+          return [year, month, day].join("-");
+        }
+      });
+    </script>
+    <script>
+      $(function () {
+        $("#Sbutton").click(function () {
+          document.getElementById("Sbutton").disabled = true;
+          var orgNr = $("#orgSkole").val();
+          console.log("OOOOOOOOOOOORG " + orgNr);
+          var kommune = $("#kommune")[0].value;
+          var skoleNavn = $("#skoleNavn").val();
+          var lMiddelVal = $("#lMiddel").val();
+
+          var arr = [];
+          var selMulti = $.map($("#lMiddel option:selected"), function (el, i) {
+            return arr.push($(el).text());
+          });
+          var lMiddelText = arr;
+          //var lMiddelText = $("#lMiddel option:selected").text();
+          var genDate = $("#genDate").val();
+          var valDate = $("#valDate").val();
+          //var sign = $('#sign').val();
+          var sign = "{{user.sign}}";
+
+          console.log(
+            orgNr +
+              " " +
+              kommune +
+              " " +
+              skoleNavn +
+              " " +
+              lMiddelVal +
+              " " +
+              lMiddelText +
+              " " +
+              genDate +
+              " " +
+              valDate +
+              " " +
+              sign
+          );
+          var dson = {
+            orgNr: orgNr,
+            kommune: kommune,
+            skoleNavn: skoleNavn,
+            lMiddelVal: lMiddelVal,
+            lMiddelText: lMiddelText,
+            genDate: genDate,
+            valDate: valDate,
+            sign: sign,
+          };
+          console.log("DSON-SON: " + dson);
+          $.ajax({
+            url: "/addToDB",
+            data: JSON.stringify(dson),
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (response) {
+              console.log(response);
+              console.log("SUCCESS!");
+              window.location.reload();
+            },
+            error: function (error) {
+              console.log(error);
+              console.log("ERROR! apparently not ';..;'");
+              window.location.reload();
+            },
+          });
+        });
+      });
+    </script>
+    <script>
+      $(function () {
+        $("#Sbutton5").click(function () {
+          document.getElementById("Sbutton5").disabled = true;
+
+          var kommune = $("#kommune5")[0].value;
+
+          var instance = M.Chips.getInstance($(".chips"));
+          var skolerJSON = instance.chipsData;
+          var skoleNavnArr = [];
+          skoleNavnArr = JSONtoArray(skolerJSON);
+          function JSONtoArray(target){
+              var arr = [];
+              $.each(target, function(i, e){
+                  $.each(e, function(key, val){
+                      arr.push(val);
+                  });
+              });
+              return arr;
+          }
+
+          var skoleOrgArr = [];
+          //skoleOrgArr = hentOrg2(skoleNavnArr);
+          // KJØRER FUNKSJON OG SÅ COMPLETEREQ FUNKSJONEN UNDER GEGE
+          hentOrg2(skoleNavnArr, kommune)
+          
+          function completeReq(){
+          //console.log(" NAVN / ORG ");
+          //console.log(skoleNavnArr);
+          //console.log(skoleOrgArr);
+
+          var lMiddelVal = $("#lMiddel5").val();
+          var arr = [];
+          var selMulti = $.map($("#lMiddel5 option:selected"), function (el, i) {
+            return arr.push($(el).text());
+          });
+          var lMiddelText = arr;
+          //var lMiddelText = $("#lMiddel option:selected").text();
+          var genDate = $("#genDate5").val();
+          var valDate = $("#valDate5").val();
+          //var sign = $('#sign').val();
+          var sign = "{{user.sign}}";
+
+          var inArr = [];
+          if(jQuery.inArray("000", skoleOrgArr) !== -1){
+            console.log("IF...");
+            for(i=0;i<skoleOrgArr.length; i++){
+              if (skoleOrgArr[i] == "000"){
+                console.log("PUSHER");
+                inArr.push(skoleNavnArr[i]);
+              }
+            }
+            $.each(inArr, function( index, value ) {
+              //$( "div:contains('"+value+"'):last" ).css( "background-color", "red" );
+              $("div").find(":contains('"+value+"'):last").each(function() {
+                if ($(this).hasClass("chip")){
+                  $(this).css( "background-color", "red" );
+                }
+              });
+            });
+            document.getElementById("Sbutton5").disabled = false;
+          }else{
+
+          var dson = {
+            orgNr: skoleOrgArr,
+            skoleNavn: skoleNavnArr,
+            kommune: kommune,
+            lMiddelVal: lMiddelVal,
+            lMiddelText: lMiddelText,
+            genDate: genDate,
+            valDate: valDate,
+            sign: sign,
+          };
+          //console.log("DSON-SON: ");
+          //console.log(JSON.stringify(dson));
+          
+          $.ajax({
+            url: "/addToDBMulti",
+            data: JSON.stringify(dson),
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (response) {
+              console.log(response);
+              console.log("SUCCESS!");
+              window.location.reload();
+            },
+            error: function (error) {
+              console.log(error);
+              console.log("ERROR! apparently not ';..;'");
+              window.location.reload();
+            },
+          });
+        }
+        }
+          function hentOrg2(skoleArr, kom) {
+        console.log("hentOrg2");
+        console.log(skoleArr);
+        dataSend = { skoleArr:skoleArr, kommuneNavn:kom};
+        $.ajax({
+          url: "/background_process3",
+          data: JSON.stringify(dataSend),
+          type: "POST",
+          dataType: "JSON",
+          contentType: "application/json;charset=UTF-8",
+          success: function (response) {
+            console.log("hentOrg2 SUCCESS");
+            skoleOrgArr = response;
+            completeReq();
+          },
+          error: function (error) {
+            console.log(error);
+            console.log("ERROR! apparently not ';..;'");
+          },
+        });
+      }
+        });
+      });
+    </script>
+    <script>
+      $(function () {
+        $("#Sbutton2").click(function () {
+          document.getElementById("Sbutton2").disabled = true;
+          //var orgNr = $('#orgNr').val();
+          var kommune = $("#kommune2")[0].value;
+          console.log("KOMMUNE");
+          console.log(kommune);
+          //var skoleNavn = $('#skoleNavn').val();
+          var lMiddelVal = $("#lMiddel2").val();
+
+          var arr = [];
+          var selMulti = $.map(
+            $("#lMiddel2 option:selected"),
+            function (el, i) {
+              return arr.push($(el).text());
+            }
+          );
+          var lMiddelText = arr;
+          //var lMiddelText = $("#lMiddel option:selected").text();
+          var genDate = $("#genDate2").val();
+          var valDate = $("#valDate2").val();
+          var sign = "{{user.sign}}";
+
+          //console.log(orgNr + " " + kommune + " " + skoleNavn + " " + lMiddelVal + " " + lMiddelText + " " + genDate + " " + valDate + " " + sign);
+          var dson = {
+            //"orgNr" : orgNr,
+            kommune: kommune,
+            //"skoleNavn": skoleNavn,
+            lMiddelVal: lMiddelVal,
+            lMiddelText: lMiddelText,
+            genDate: genDate,
+            valDate: valDate,
+            sign: sign,
+          };
+
+          $.ajax({
+            url: "/addToDBKom",
+            data: JSON.stringify(dson),
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (response) {
+              console.log(response);
+              console.log("SUCCESS! (KOMMUNE)");
+              window.location.reload();
+            },
+            error: function (error) {
+              console.log(error);
+              console.log("ERROR! (KOMMUNE) apparently not ';..;'");
+              window.location.reload();
+            },
+          });
+        });
+      });
+    </script>
+    <script>
+      $(function () {
+        $("#Sbutton3").click(function () {
+          document.getElementById("Sbutton3").disabled = true;
+         
+          var kommune3 = $("#kommuneNavn3").val();
+          var skoleNavn3 = $("#skoleNavn3").val();
+          var orgNr3 = $("#orgSkole3").val();
+ 
+
+          var lMiddelVal3 = $("#lMiddel3").val();
+          var arr = [];
+          var selMulti = $.map(
+            $("#lMiddel3 option:selected"),
+            function (el, i) {
+              return arr.push($(el).text());
+            }
+          );
+          var lMiddelText3 = arr;
+
+          var genDate3 = $("#genDate3").val();
+          var valDate3 = $("#valDate3").val();
+          var sign3 = "{{user.sign}}";
+
+          /*console.log(
+            "Org: " +
+            orgNr3 +
+              " Kommune: " +
+              kommune3 +
+              " Skole: " +
+              skoleNavn3 +
+              " LM: " +
+              lMiddelVal3 +
+              " gen: " +
+              genDate3 +
+              " val: " +
+              valDate3 +
+              " sign: " +
+              sign3
+          );*/
+          var dson3 = {
+            orgNr: orgNr3,
+            kommune: kommune3,
+            skoleNavn: skoleNavn3,
+            lMiddelVal: lMiddelVal3,
+            lMiddelText: lMiddelText3,
+            genDate: genDate3,
+            valDate: valDate3,
+            sign: sign3,
+          };
+          console.log("DSON-SON: " + dson3);
+          $.ajax({
+            url: "/addToDBCustom",
+            data: JSON.stringify(dson3),
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (response) {
+              console.log(response);
+              console.log("SUCCESS!");
+              window.location.reload();
+            },
+            error: function (error) {
+              console.log(error);
+              console.log("ERROR! apparently not ';..;'");
+              window.location.reload();
+            },
+          });
+        });
+      });
+    </script>
+    <script>
+
+      $(document).ready(function(){
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+   
+    Materialize.updateTextFields();
+  });
+
+      $('.btn-floating.orange.edCourse').on('click', function(){
+  $('#modal1').modal('open');
+  // Get all TD from the cliked Button
+  var td = $(this).parents('tr').find('td:lt(3)');
+  var cId = $(td[0]).text();
+  var cT = $(td[1]).text();
+  var cS = $(td[2]).text();
+  $('#courseId').attr('value', cId);
+    $('#course').attr('value', cT);
+    $('#section').attr('value', cS);
+    $('#prevId').attr('value', cId);     
+
+});
+$('.btn-floating.red.deleteIt').on('click', function(){
+  $('#modal2').modal('open');
+  // Get all TD from the cliked Button
+  var td = $(this).parents('tr').find('td:lt(3)');
+  var cId = $(td[0]).text();
+  var cT = $(td[1]).text();
+  var cS = $(td[2]).text();
+  $('#courseId2').attr('value', cId);
+    $('#course2').attr('value', cT);
+    $('#section2').attr('value', cS);
+
+});
+
+$('.btn-floating.red.deleteItSchool').on('click', function(){
+  $('#modal2').modal('open');
+  // Get all TD from the cliked Button
+  var td = $(this).parents('tr').find('td:lt(3)');
+  var cId = $(td[0]).text();
+  var cT = $(td[1]).text();
+  var cS = $(td[2]).text();
+  $('#delOrg').attr('value', cId);
+    $('#delSkole').attr('value', cT);
+    $('#delKom').attr('value', cS);
+
+});
+
+$('.btn-floating.red.deleteItUser').on('click', function(){
+  $('#modal2').modal('open');
+  // Get all TD from the cliked Button
+  var td = $(this).parents('tr').find('td:lt(3)');
+  var cId = $(td[0]).text();
+  var cT = $(td[1]).text();
+  
+  $('#username').attr('value', cId);
+    $('#email').attr('value', cT);
+});
+$('.btn-floating.orange.edPw').on('click', function(){
+  $('#modal1').modal('open');
+  // Get all TD from the cliked Button
+  var td = $(this).parents('tr').find('td:lt(3)');
+  var cId = $(td[0]).text();
+  $('#username2').attr('value', cId);
+
+});
+
+$(document).ready(function(){
+    $('.fixed-action-btn.addLisence').floatingActionButton();
+    $('.fixed-action-btn.deleteItUser').floatingActionButton();
+  });
+      </script>
+      <script>
+        $('li.optgroup').on('click', function(){  
+     $('li.optgroup-option').trigger('click');
+});
+</script>
+<script>
+ 
+function openList1(skl) {
+
+    //console.log(event.target);
+    var target = $( event.target );
+
+    if(target.parent().parent().next().css("display") == 'none')
+    {
+      target.parent().parent().next().css("display","block");
+      target.html("arrow_drop_up");
+    }else{
+      target.parent().parent().next().css("display","none");
+      target.html("arrow_drop_down");
+    }
+    
+}
+
+</script>
+  </body>
+</html>

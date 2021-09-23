@@ -1,0 +1,167 @@
+{% extends "base.html" %}{% block title %} Læremidler{% endblock %} {% block
+    schoolmanager %} <br /><br />
+    <div class="full-width">
+  
+  
+  
+  
+  
+      {% set ns = namespace() %}
+      {% set ns.kommune = '' %}
+  
+      {% for row in schoolList %}
+  
+      {% if row[2] != ns.kommune %}
+      {% if ns.kommune != '' %}
+        </tbody>
+      </table>
+      </div>
+      <div class="col s2"></div>
+      </div>
+      {% endif %}
+            
+      <div class="row">
+        <div class="col s2"></div>
+        <div class="col s8">
+          <h3>{{row[2]}}</h3>
+            {% set ns.kommune = row[2] %}
+          <table>
+            <thead>
+              <tr>
+                <th>Org Nummer</th>
+                <th>Skole</th>
+                <th>Fylke/Kommune</th>
+                <th>Handling</th>
+              </tr>
+            </thead>
+            {% endif %}
+            <tbody>
+   
+              <tr>
+                <td>{{row[0]}}</td>
+                <td>{{row[1]}}</td>
+                <td>{{row[2]}}</td>
+                <td>
+                  <a
+                    href="#delete=' + elem['{{row[0]}}'] + '"
+                    data-target="modal2"
+                    id="deleteSchoolYes"
+                    class="
+                      btn-floating
+                      waves-effect waves-light
+                      red
+                      btn
+                      modal-trigger
+                      hoverable
+                      deleteItSchool
+                    "
+                    ><i class="material-icons">delete</i>\
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="col s2"></div>
+      </div>
+     
+    </div>
+    
+    <div class="fixed-action-btn addSchool">
+      <a
+        class="
+          btn-floating btn-large
+          red
+          modal-trigger
+          hoverable
+          btn
+          waves-effect waves-light
+        "
+        data-target="modal3"
+      >
+        <i class="large material-icons">add</i>
+      </a>
+    </div>
+    <!-- Modal 2 Structure -->
+  <div id="modal2" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Er du sikker på at du vil slette skolen?</h4>
+      <br />
+      <br />
+      <div class="row">
+        <h5>
+         Skolen vil bli fjernet fra databasen
+        </h5>
+        <h5>Lisenser som allerede er tildelt vil ikke bli fjernet.</h5>
+        <br />
+        <br />
+        <form class="col s12" action="" method="post">
+          <input type="hidden" name="_METHOD" value="DELETE" />
+          <input id="delOrg" type="number" name="delOrg" />
+          <label for="delOrg">OrgNr</label>
+          <input id="delSkole" name="delSkole" type="text" />
+          <label for="delSkole">Skole</label>
+  
+          <input id="delKom" name="delKom" type="text" />
+          <label for="delKom">Kommune</label>
+          <br />
+          <br />
+          <input
+            class="btn btn-default red"
+            type="submit"
+            value="Ja, jeg vil slette skolen"
+          />
+        </form>
+      </div>
+  </div>
+  </div>
+          <!-- Modal 3 Structure -->
+          <div id="modal3" class="modal modal-fixed-footer">
+            <div class="modal-content">
+              <h4>Legg til skole</h4>
+              <div class="row">
+                <form class="col s12" action="" method="post">
+                  <input type="hidden" name="_METHOD" value="POST" />
+                  <input
+                    placeholder="OrgNr her.."
+                    id="addOrgNr"
+                    type="number"
+                    name="addOrgNr"
+                    value="{{
+                      request.form.OrgNr }}"
+                  />
+                  <label for="addOrgNr">OrgNr</label>
+                  <input
+                    id="addSkole"
+                    placeholder="Skolenavn her.."
+                    type="text"
+                    name="addSkole"
+                    value="{{
+                      request.form.skoleNavn }}"
+                  />
+                  <label for="addSkole">Skole</label>
+                  <input
+                    id="addKommune"
+                    placeholder="Kommune her.."
+                    type="text"
+                    name="addKommune"
+                    value="{{
+                      request.form.kommuneNavn }}"
+                  />
+                  <label for="section">Kommune</label>
+                  <br />
+                  <br />
+                  <input
+                    class="btn btn-default"
+                    type="submit"
+                    value="Legg til skole"
+                  />
+                </form>
+              </div>
+            </div>
+          </div>
+        {% endblock %}
+      </div>
+    </div>
+    

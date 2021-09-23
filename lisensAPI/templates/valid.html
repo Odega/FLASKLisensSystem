@@ -1,0 +1,34 @@
+{% block valid %}
+
+<div id="expiredL">
+  <h5>Utgående Lisenser</h5>
+  {% if validResultat is not none %} {% for item in validResultat %}
+  <div class="card-panel expiredCard">
+    <h6 class="center">
+      <a
+        class="validSchoolName"
+        href="{{ url_for('views.school_page', school = item.skole, orgNr = item.orgNr, kommune = item.kommune ) }}"
+        >{{item.skole}}</a
+      >
+    </h6>
+
+    <span class="right badge blue white-text">{{item.lm|length}} lisenser</span>
+    <span class="right badge red white-text">{{item.gDager}} dager</span>
+
+    <div class="center">
+      <p id="list1" onclick="openList1('{{ loop.index }}')">
+        <i class="material-icons">arrow_drop_down</i>
+      </p>
+    </div>
+    <ol id="{{item.orgNr}}" class="validList" style="display: none">
+      {% for itli in item.lm %}
+      <li>{{itli}}</li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endfor %} {% else %}
+  <p>Ingen lisenser som går ut denne måneden. (30 dager fra nå)</p>
+  {% endif %}
+</div>
+
+{% endblock %}

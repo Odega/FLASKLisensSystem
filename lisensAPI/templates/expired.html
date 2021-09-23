@@ -1,0 +1,37 @@
+{% extends "base.html" %}{% block title %} Utgåtte lisenser {% endblock %} {%
+block expired %}
+<div class="full-width">
+  <div class="row">
+    <div class="col m1"></div>
+    <div class="col m10">
+      <div><a href="{{ url_for('views.dashboard') }}">Tilbake</a></div>
+      {% include 'addLisence.html' %}
+      <br /><br />
+      <div id="expiredL">
+        <h5>Utgåtte Lisenser</h5>
+        {% if validResultat is not none %} {% for item in validResultat %}
+        <div class="card-panel">
+          <h5>
+            <a
+              href="{{ url_for('views.school_page', school = item.skole, orgNr = item.orgNr, kommune = item.kommune ) }}"
+              >{{item.skole}}</a
+            >
+          </h5>
+          <span class="right badge red white-text"
+            >Lisens utgikk for {{item.gDager * -1}} dager siden</span
+          >
+
+          <ol>
+            {% for itli in item.lm %}
+            <li>{{itli}}</li>
+            {% endfor %}
+          </ol>
+        </div>
+        {% endfor %} {% else %}
+        <p>Ingen utgåtte lisenser å vise :)</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

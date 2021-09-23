@@ -1,0 +1,316 @@
+{% block addLisence %}
+
+<div class="showHideWrapper">
+  <div class="row card">
+    <div class="col s12">
+      <ul class="tabs">
+        <!--<li class="tab"><a href="#test1" class="active">Legg til lisenser</a></li>-->
+        <li class="tab">
+          <a href="#test2" class="active">Legg til skoleavtale (enkel)</a>
+        </li>
+        <li class="tab">
+          <a href="#test5" class="active">Legg til skoleavtale (flere)</a>
+        </li>
+        <li class="tab"><a href="#test3">Legg til kommuneavtale</a></li>
+        <li class="tab"><a href="#test4">Tilpasset lisens</a></li>
+      </ul>
+    </div>
+    <br />
+
+    <div id="test2" class="col s12">
+      <div class="input-field col s2">
+        <input type="text" name="kommune" id="kommune" class="autocomplete" />
+        <label for="kommune">Kommune/Fylkeskommune</label>
+      </div>
+
+      <div class="input-field col s3">
+        <input
+          id="skoleNavn"
+          name="skoleNavn"
+          type="text"
+          class="autocomplete2"
+        />
+        <label id="skoleLabel" for="skoleNavn">Skolenavn</label>
+      </div>
+
+      <div class="input-field col s2">
+        <input
+          id="orgSkole"
+          name="orgNr"
+          type="text"
+          class="validate"
+          disabled
+        />
+        <label id="orgLabel" for="orgNr">Org. Nummer</label>
+      </div>
+
+      <div class="input-field col s5">
+        <select id="lMiddel" multiple>
+          <option value="" disabled>Læremiddel</option>
+          {% set ns = namespace() %}
+          {% set ns.section = '' %}
+          {% for row in courseList %}
+            {% if row[2] != ns.section %}
+              {% if ns.section != '' %} 
+                </optgroup>
+              {% endif %}
+              {% set ns.section = row[2] %}
+              <optgroup class="optgrp_{{row[2]}}" label="{{row[2]}}">
+            {% endif %}
+         
+
+          <option class="opt_{{row[2]}}" value="{{row[0]}}">{{row[1]}}</option>
+          {% endfor %}
+        </optgroup>
+        </select>
+        <label>Læremidler</label>
+      </div>
+      <br />
+      <div class="input-field col s3">
+        <input id="genDate" name="genDate" type="text" class="datepicker1" />
+        <label for="genDate">Aktiveringsdato</label>
+      </div>
+      <div class="input-field col s3">
+        <input id="valDate" name="valDate" type="text" class="datepicker2" />
+        <label for="valDate">Gyldig til</label>
+      </div>
+      <div class="input-field col s3">
+        <input
+          id="sign"
+          name="sign"
+          type="text"
+          value="{{user.sign}}"
+          disabled
+        />
+        <label for="sign" class="active">Signatur</label>
+      </div>
+      <button
+        id="Sbutton"
+        class="btn-large waves-effect waves-light right"
+        type="submit"
+        name="action"
+      >
+        Opprett
+        <i class="material-icons right">send</i>
+      </button>
+    </div>
+    <!-- SKOLE FLERE -->
+    <div id="test5" class="col s12">
+      <div class="row">
+      <div class="input-field col s3">
+        <input type="text" name="kommune5" id="kommune5" class="autocomplete5" />
+        <label for="kommune5">Kommune/Fylkeskommune</label>
+      </div>
+      
+      <div class="input-field col s9">
+        <div class="chips chips-autocomplete chips-placeholder">
+        <input
+          id="skoleNavn5"
+          name="skoleNavn5"
+          type="text"
+          class="skoleInput5"
+          style="width:100% !important;text-decoration: none;"
+        />
+      </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s7">
+        <select id="lMiddel5" multiple>
+          <option value="" disabled>Læremiddel</option>
+          {% set ns = namespace() %}
+          {% set ns.section = '' %}
+          {% for row in courseList %}
+            {% if row[2] != ns.section %}
+              {% if ns.section != '' %} 
+                </optgroup>
+              {% endif %}
+              {% set ns.section = row[2] %}
+              <optgroup class="optgrp_{{row[2]}}" label="{{row[2]}}">
+            {% endif %}
+         
+
+          <option class="opt_{{row[2]}}" value="{{row[0]}}">{{row[1]}}</option>
+          {% endfor %}
+        </optgroup>
+        </select>
+        <label>Læremidler</label>
+      </div>
+   
+    
+
+      <div class="input-field col s1">
+        <input id="genDate5" name="genDate5" type="text" class="datepicker1" />
+        <label for="genDate5">Aktiveringsdato</label>
+      </div>
+      <div class="input-field col s1">
+        <input id="valDate5" name="valDate5" type="text" class="datepicker2" />
+        <label for="valDate5">Gyldig til</label>
+      </div>
+      <div class="input-field col s1">
+        <input
+          id="sign5"
+          name="sign5"
+          type="text"
+          value="{{user.sign}}"
+          disabled
+        />
+        <label for="sign5" class="active">Signatur</label>
+      </div>
+    
+      <button
+        id="Sbutton5"
+        class="btn-large waves-effect waves-light right"
+        type="submit"
+        name="action"
+      >
+        Opprett
+        <i class="material-icons right">send</i>
+      </button>
+    </div>
+    </div>
+
+
+    <!-- KOMMUNE -->
+    <div id="test3" class="col s12">
+      <div class="input-field col s2">
+        <input type="text" name="kommune" id="kommune2" class="autocomplete" />
+        <label for="kommune2">Kommune/Fylkeskommune</label>
+      </div>
+
+      <div class="input-field col s8">
+        <select id="lMiddel2" multiple>
+          <option value="" disabled>Læremiddel</option>
+          {% set ns = namespace() %}
+          {% set ns.section = '' %}
+          {% for row in courseList %}
+            {% if row[2] != ns.section %}
+              {% if ns.section != '' %} 
+                </optgroup>
+              {% endif %}
+              {% set ns.section = row[2] %}
+              <optgroup label="{{row[2]}}">
+            {% endif %}
+         
+
+          <option value="{{row[0]}}">{{row[1]}}</option>
+          {% endfor %}
+        </optgroup>
+        </select>
+        <label>Læremidler</label>
+      </div>
+      <br />
+      <div class="input-field col s3">
+        <input id="genDate2" name="genDate" type="text" class="datepicker1" />
+        <label for="genDate2">Aktiveringsdato</label>
+      </div>
+      <div class="input-field col s3">
+        <input id="valDate2" name="valDate" type="text" class="datepicker2" />
+        <label for="valDate2">Gyldig til</label>
+      </div>
+      <div class="input-field col s3">
+        <input
+          id="sign2"
+          name="sign"
+          type="text"
+          value="{{user.sign}}"
+          disabled
+        />
+        <label for="sign2" class="active">Signatur</label>
+      </div>
+      <button
+        id="Sbutton2"
+        class="btn-large waves-effect waves-light right"
+        type="submit"
+        name="action"
+      >
+        Opprett
+        <i class="material-icons right">send</i>
+      </button>
+    </div>
+
+<!-- Tilpasset lisens -->
+
+    <div id="test4" class="col s12">
+        <div class="input-field col s2">
+          <input type="text" name="kommuneNavn3" id="kommuneNavn3"/>
+          <label for="kommuneNavn3">Kommune/Fylkeskommune</label>
+        </div>
+  
+        <div class="input-field col s3">
+          <input
+            id="skoleNavn3"
+            name="skoleNavn3"
+            type="text"
+          />
+          <label for="skoleNavn3">Skolenavn</label>
+        </div>
+  
+        <div class="input-field col s2">
+          <input
+            id="orgSkole3"
+            name="orgNr3"
+            type="text"
+          />
+          <label for="orgNr3">Org. Nummer</label>
+        </div>
+  
+        <div class="input-field col s5">
+          <select id="lMiddel3" multiple>
+            <option value="" disabled>Læremiddel</option>
+            {% set ns = namespace() %}
+            {% set ns.section = '' %}
+            {% for row in courseList %}
+              {% if row[2] != ns.section %}
+                {% if ns.section != '' %} 
+                  </optgroup>
+                {% endif %}
+                {% set ns.section = row[2] %}
+                <optgroup label="{{row[2]}}">
+              {% endif %}
+           
+  
+            <option value="{{row[0]}}">{{row[1]}}</option>
+            {% endfor %}
+          </optgroup>
+          </select>
+          <label>Læremidler</label>
+        </div>
+
+        <br />
+        <div class="input-field col s3">
+          <input id="genDate3" name="genDate" type="text" class="datepicker1" />
+          <label for="genDate">Aktiveringsdato</label>
+        </div>
+        <div class="input-field col s3">
+          <input id="valDate3" name="valDate" type="text" class="datepicker2" />
+          <label for="valDate">Gyldig til</label>
+        </div>
+        <div class="input-field col s3">
+          <input
+            id="sign3"
+            name="sign3"
+            type="text"
+            value="{{user.sign}}"
+            disabled
+          />
+          <label for="sign3" class="active">Signatur</label>
+        </div>
+        <button
+          id="Sbutton3"
+          class="btn-large waves-effect waves-light right"
+          type="submit"
+          name="action"
+        >
+          Opprett
+          <i class="material-icons right">send</i>
+        </button>
+ 
+    
+    </div>
+
+
+  </div>
+</div>
+
+{% endblock %}

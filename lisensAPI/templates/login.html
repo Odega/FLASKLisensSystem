@@ -1,0 +1,29 @@
+{% extends "base.html" %}{% block title %} Logg inn {% endblock %} {% block
+login %}
+
+<div class="container">
+  <h1>Logg inn</h1>
+  <br />
+  <form action="" method="post">
+    <input
+      type="text"
+      placeholder="Brukernavn"
+      name="username"
+      value="{{
+          request.form.username }}"
+    />
+    <input
+      type="password"
+      placeholder="Passord"
+      name="password"
+      value="{{
+          request.form.password }}"
+    />
+    <input class="btn btn-default" type="submit" value="Logg inn" />
+  </form>
+  <a href="/forgotpass">Glemt passord?</a>
+  {% if error %}
+  <p class="error"><strong>Error:</strong> {{ error }} {% endif %}</p>
+</div>
+
+{% endblock %}

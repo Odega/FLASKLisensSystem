@@ -1,0 +1,43 @@
+{% extends "base.html" %}{% block title %} {{ kommuneNavn }} {% endblock %} {%
+block kommune %}
+<div class="full-width">
+  <div class="row">
+    <div class="col m1"></div>
+    <div class="col m10">
+      <h1 class="left">{{ kommuneNavn }}</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col m1"></div>
+    <div class="col m10">
+      {% include 'addLisence.html' %}
+      <br /><br />
+      <table id="table_id" class="display">
+        <thead>
+          <tr>
+            <th>Skolenavn</th>
+            <th>Læremiddel</th>
+            <th>Aktiveringsdato</th>
+            <th>Lisens utgår</th>
+            <th>Signatur</th>
+            <th>Opprettet</th>
+          </tr>
+        </thead>
+        <tbody id="obsTable">
+          {% for row in resultat %}
+          <tr>
+            <td>{{row[3]}}</td>
+            <td>{{row[4]}}</td>
+            <td>{{row[6]}}</td>
+            <td>{{row[7]}}</td>
+            <td>{{row[8]}}</td>
+            <td>{{row[9]}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

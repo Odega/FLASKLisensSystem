@@ -1,0 +1,51 @@
+{% extends "base.html" %}{% block title %} Dashbord {% endblock %}
+
+{% block dashboard %}
+<br><br>
+<div class="full-width">
+    <div class="row">
+        <div class="col m2">
+            {% include 'valid.html' %}
+        </div>
+        <div class="col s12 m9">
+            {% include 'addLisence.html' %}
+            <br><br>
+            <table id="table_id" class="display">
+                <thead>
+                    <tr>
+                        <!--<th>Unik ID</th>-->
+                        <!--<th>Org. Nummer</th>-->
+                        <th>Kommune</th>
+                        <th>Skolenavn</th>
+                        <th>Læremiddel</th>
+                        <!--<th>Læremiddel ID</th>-->
+                        <!--<th>Aktiveringsdato</th>-->
+                        <th>Lisens utgår</th>
+                        <th>Signatur</th>
+                        <th>Opprettet</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in resultat %}    
+                    <tr>
+                        <!-- <td>{{row[0]}}</td>-->
+                        <!--<td>{{row[1]}}</td>-->
+                        <td><a href="{{ url_for('views.kommune_page', kommune = row[2] ) }}">{{row[2]}}</a></td>
+                        <td><a href="{{ url_for('views.school_page', school = row[3], orgNr = row[1], kommune = row[2] ) }}">{{row[3]}}</a></td>
+                        <td>{{row[4]}}</td>
+                        <!--<td>{{row[5]}}</td>-->
+                        <!--<td>{{row[6]}}</td>-->
+                        <td>{{row[7]}}</td>
+                        <td>{{row[8]}}</td>
+                        <td>{{row[9]}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+    </div>
+    <div class="col m1"></div>
+    </div>
+    </div>
+</div>
+{% endblock %}
